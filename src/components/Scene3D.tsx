@@ -9,10 +9,26 @@ const CORAL = "#E294A2";
 const GOLD = "#E8BF87";
 const AZURE = "#1E9AFF";
 
+function starShape() {
+  const outerRadius = 0.5;
+  const innerRadius = 0.2;
+  const points = 5;
+  const shape = new THREE.Shape();
+  for (let i = 0; i < points * 2; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+    const px = Math.cos(angle) * radius;
+    const py = Math.sin(angle) * radius;
+    if (i === 0) shape.moveTo(px, py);
+    else shape.lineTo(px, py);
+  }
+  shape.closePath();
+  return shape;
+}
+
 function heartShape() {
   // Classic two-lobe heart silhouette (control points from three.js's
-  // own "extrude shapes" heart example) — the original hand-guessed
-  // bezier points here rendered as an unrecognizable blob.
+  // own "extrude shapes" heart example).
   const shape = new THREE.Shape();
   const x = 0;
   const y = 0;
@@ -37,8 +53,8 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
     const geo = new THREE.ExtrudeGeometry(heartShape(), {
       depth: 0.4,
       bevelEnabled: true,
-      bevelSize: 0.05,
-      bevelThickness: 0.05,
+      bevelSize: 0.02,
+      bevelThickness: 0.02,
     });
     geo.scale(0.25, 0.25, 0.25);
     geo.center();
@@ -59,7 +75,7 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
           (Math.random() - 0.5) * 8,
           (Math.random() - 0.5) * 6 - 2,
         ] as [number, number, number],
-        rotation: [0, 0, Math.random() * Math.PI] as [number, number, number],
+        rotation: [0, 0, (Math.random() - 0.5) * 0.6] as [number, number, number],
         speed: 0.5 + Math.random() * 1.5,
       }))
     );
@@ -86,11 +102,23 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
 
 type StarPlacement = {
   position: [number, number, number];
+  rotation: [number, number, number];
   speed: number;
   scale: number;
 };
 
 function Stars({ count, reduceMotion }: { count: number; reduceMotion: boolean }) {
+  const geometry = useMemo(() => {
+    const geo = new THREE.ExtrudeGeometry(starShape(), {
+      depth: 0.15,
+      bevelEnabled: true,
+      bevelSize: 0.02,
+      bevelThickness: 0.02,
+    });
+    geo.center();
+    return geo;
+  }, []);
+
   const [placements, setPlacements] = useState<StarPlacement[]>([]);
 
   useEffect(() => {
@@ -105,8 +133,9 @@ function Stars({ count, reduceMotion }: { count: number; reduceMotion: boolean }
           (Math.random() - 0.5) * 8,
           (Math.random() - 0.5) * 6 - 2,
         ] as [number, number, number],
+        rotation: [0, 0, (Math.random() - 0.5) * 0.6] as [number, number, number],
         speed: 0.4 + Math.random() * 1.2,
-        scale: 0.15 + Math.random() * 0.15,
+        scale: 0.6 + Math.random() * 0.6,
       }))
     );
   }, [count]);
@@ -121,8 +150,7 @@ function Stars({ count, reduceMotion }: { count: number; reduceMotion: boolean }
           floatIntensity={reduceMotion ? 0 : 1.5}
           position={p.position}
         >
-          <mesh scale={p.scale}>
-            <icosahedronGeometry args={[1, 0]} />
+          <mesh geometry={geometry} rotation={p.rotation} scale={p.scale}>
             <meshStandardMaterial color={GOLD} roughness={0.3} metalness={0.2} />
           </mesh>
         </Float>
