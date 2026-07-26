@@ -1,7 +1,7 @@
-# Cute Interactive Girlfriend Site — Design
+# Cute Interactive Memory Box Site — Design
 
 ## Purpose
-A single-page, cozy, tactile "digital memory box" site for a girlfriend. Built with Next.js (App Router), Tailwind CSS v4, Framer Motion, Lucide icons, canvas-confetti, and a full-page WebGL 3D background via react-three-fiber. Explicitly avoiding generic/sterile AI-template aesthetics.
+A single-page, cozy, tactile "digital memory box" site for someone special. Built with Next.js (App Router), Tailwind CSS v4, Framer Motion, Lucide icons, canvas-confetti, and a full-page WebGL 3D background via react-three-fiber. Explicitly avoiding generic/sterile AI-template aesthetics.
 
 ## Color Palette (already defined in `src/app/globals.css` `@theme`)
 - `palette-tint` #D0F7FF — main background tint
