@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shuffle } from "lucide-react";
 import { dateIdeas } from "@/content";
@@ -11,6 +11,12 @@ export default function DatePicker() {
   const [spinning, setSpinning] = useState(false);
   const [tick, setTick] = useState(0);
   const cycleRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (cycleRef.current) clearInterval(cycleRef.current);
+    };
+  }, []);
 
   const spin = () => {
     if (spinning) return;

@@ -10,14 +10,19 @@ const GOLD = "#E8BF87";
 const AZURE = "#1E9AFF";
 
 function heartShape() {
+  // Classic two-lobe heart silhouette (control points from three.js's
+  // own "extrude shapes" heart example) — the original hand-guessed
+  // bezier points here rendered as an unrecognizable blob.
   const shape = new THREE.Shape();
   const x = 0;
   const y = 0;
-  shape.moveTo(x, y + 0.3);
-  shape.bezierCurveTo(x, y + 0.3, x - 0.5, y - 0.2, x - 1, y + 0.3);
-  shape.bezierCurveTo(x - 1.6, y + 0.9, x - 0.8, y + 1.3, x, y + 0.6);
-  shape.bezierCurveTo(x + 0.8, y + 1.3, x + 1.6, y + 0.9, x + 1, y + 0.3);
-  shape.bezierCurveTo(x + 0.5, y - 0.2, x, y + 0.3, x, y + 0.3);
+  shape.moveTo(x + 0.25, y + 0.25);
+  shape.bezierCurveTo(x + 0.25, y + 0.25, x + 0.2, y, x, y);
+  shape.bezierCurveTo(x - 0.3, y, x - 0.3, y + 0.35, x - 0.3, y + 0.35);
+  shape.bezierCurveTo(x - 0.3, y + 0.55, x - 0.1, y + 0.77, x + 0.25, y + 0.95);
+  shape.bezierCurveTo(x + 0.6, y + 0.77, x + 0.8, y + 0.55, x + 0.8, y + 0.35);
+  shape.bezierCurveTo(x + 0.8, y + 0.35, x + 0.8, y, x + 0.5, y);
+  shape.bezierCurveTo(x + 0.35, y, x + 0.25, y + 0.25, x + 0.25, y + 0.25);
   return shape;
 }
 
@@ -43,6 +48,10 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
   const [placements, setPlacements] = useState<HeartPlacement[]>([]);
 
   useEffect(() => {
+    // One-time random placement generation for a decorative background;
+    // there is no way to derive this from props/state, so it must live in
+    // an effect rather than render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPlacements(
       Array.from({ length: count }, () => ({
         position: [
@@ -85,6 +94,10 @@ function Stars({ count, reduceMotion }: { count: number; reduceMotion: boolean }
   const [placements, setPlacements] = useState<StarPlacement[]>([]);
 
   useEffect(() => {
+    // One-time random placement generation for a decorative background;
+    // there is no way to derive this from props/state, so it must live in
+    // an effect rather than render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPlacements(
       Array.from({ length: count }, () => ({
         position: [
@@ -124,7 +137,7 @@ function PointerRig({ reduceMotion }: { reduceMotion: boolean }) {
 
   // react-three-fiber's useFrame runs outside React's render cycle; mutating
   // camera/object transforms here is the standard r3f animation pattern.
-  // eslint-disable-next-line react-hooks/immutability
+  /* eslint-disable react-hooks/immutability */
   useFrame(() => {
     if (reduceMotion) return;
     target.current.x = pointer.x * 0.6;
@@ -133,6 +146,7 @@ function PointerRig({ reduceMotion }: { reduceMotion: boolean }) {
     camera.position.y += (target.current.y - camera.position.y) * 0.03;
     camera.lookAt(0, 0, 0);
   });
+  /* eslint-enable react-hooks/immutability */
 
   return null;
 }
