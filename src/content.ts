@@ -32,14 +32,10 @@ export const heroText = {
   cta: "Click for a surprise",
 };
 
-export const memories: Memory[] = [
-  { caption: "Our first date", note: "I was so nervous I forgot my own order." },
-  { caption: "That road trip", note: "Still can't believe we made it on half a tank." },
-  { caption: "Rainy day in", note: "Best kind of doing absolutely nothing." },
-  { caption: "Your birthday", note: "The cake was crooked but you loved it anyway." },
-  { caption: "Late night talk", note: "3am and we still had more to say." },
-  { caption: "Just because", note: "No occasion. Just us, and that was enough." },
-];
+export const featuredMemory: Memory = {
+  caption: "Our first date",
+  note: "I was so nervous I forgot my own order.",
+};
 
 export const reasons: Reason[] = [
   { id: "r1", text: "The way you laugh at your own jokes before you finish them." },

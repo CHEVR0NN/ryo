@@ -21,3 +21,7 @@ body {
   font-family: var(--font-geist-sans), sans-serif;
   min-height: 100vh;
 }
+
+.font-handwritten {
+  font-family: var(--font-handwritten), cursive;
+}

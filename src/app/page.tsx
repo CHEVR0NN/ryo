@@ -1,17 +1,13 @@
 import Scene3DCanvas from "@/components/Scene3DCanvas";
-import Hero from "@/components/Hero";
-import MemoryGrid from "@/components/MemoryGrid";
-import ReasonsGrid from "@/components/ReasonsGrid";
-import DatePicker from "@/components/DatePicker";
+import PolaroidPrinter from "@/components/PolaroidPrinter";
 
+// Hero, ReasonsGrid, DatePicker temporarily left out of the page while we
+// focus on the polaroid camera feature and the 3D background mood together.
 export default function Home() {
   return (
     <div className="relative flex flex-col">
       <Scene3DCanvas />
-      <Hero />
-      <MemoryGrid />
-      <ReasonsGrid />
-      <DatePicker />
+      <PolaroidPrinter />
     </div>
   );
 }
