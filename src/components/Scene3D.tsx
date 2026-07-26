@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
@@ -21,6 +21,12 @@ function heartShape() {
   return shape;
 }
 
+type HeartPlacement = {
+  position: [number, number, number];
+  rotation: [number, number, number];
+  speed: number;
+};
+
 function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean }) {
   const geometry = useMemo(() => {
     const geo = new THREE.ExtrudeGeometry(heartShape(), {
@@ -34,8 +40,10 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
     return geo;
   }, []);
 
-  const placements = useMemo(
-    () =>
+  const [placements, setPlacements] = useState<HeartPlacement[]>([]);
+
+  useEffect(() => {
+    setPlacements(
       Array.from({ length: count }, () => ({
         position: [
           (Math.random() - 0.5) * 12,
@@ -44,9 +52,9 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
         ] as [number, number, number],
         rotation: [0, 0, Math.random() * Math.PI] as [number, number, number],
         speed: 0.5 + Math.random() * 1.5,
-      })),
-    [count]
-  );
+      }))
+    );
+  }, [count]);
 
   return (
     <>
@@ -67,9 +75,17 @@ function Hearts({ count, reduceMotion }: { count: number; reduceMotion: boolean 
   );
 }
 
+type StarPlacement = {
+  position: [number, number, number];
+  speed: number;
+  scale: number;
+};
+
 function Stars({ count, reduceMotion }: { count: number; reduceMotion: boolean }) {
-  const placements = useMemo(
-    () =>
+  const [placements, setPlacements] = useState<StarPlacement[]>([]);
+
+  useEffect(() => {
+    setPlacements(
       Array.from({ length: count }, () => ({
         position: [
           (Math.random() - 0.5) * 12,
@@ -78,9 +94,9 @@ function Stars({ count, reduceMotion }: { count: number; reduceMotion: boolean }
         ] as [number, number, number],
         speed: 0.4 + Math.random() * 1.2,
         scale: 0.15 + Math.random() * 0.15,
-      })),
-    [count]
-  );
+      }))
+    );
+  }, [count]);
 
   return (
     <>
@@ -106,6 +122,9 @@ function PointerRig({ reduceMotion }: { reduceMotion: boolean }) {
   const { camera, pointer } = useThree();
   const target = useRef({ x: 0, y: 0 });
 
+  // react-three-fiber's useFrame runs outside React's render cycle; mutating
+  // camera/object transforms here is the standard r3f animation pattern.
+  // eslint-disable-next-line react-hooks/immutability
   useFrame(() => {
     if (reduceMotion) return;
     target.current.x = pointer.x * 0.6;
