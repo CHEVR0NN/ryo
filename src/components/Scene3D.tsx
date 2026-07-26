@@ -27,18 +27,21 @@ function starShape() {
 }
 
 function heartShape() {
-  // Classic two-lobe heart silhouette (control points from three.js's
-  // own "extrude shapes" heart example).
+  // Two symmetric lobes with a cleft at 70% height, tapering to a single
+  // point at the bottom — the standard proportions behind the canonical
+  // "canvas heart" tutorial shape. The previous control points (borrowed
+  // from three.js's own example) only trace a single-peaked, lopsided
+  // blob with a shallow dimple near the bottom, not a heart.
   const shape = new THREE.Shape();
-  const x = 0;
-  const y = 0;
-  shape.moveTo(x + 0.25, y + 0.25);
-  shape.bezierCurveTo(x + 0.25, y + 0.25, x + 0.2, y, x, y);
-  shape.bezierCurveTo(x - 0.3, y, x - 0.3, y + 0.35, x - 0.3, y + 0.35);
-  shape.bezierCurveTo(x - 0.3, y + 0.55, x - 0.1, y + 0.77, x + 0.25, y + 0.95);
-  shape.bezierCurveTo(x + 0.6, y + 0.77, x + 0.8, y + 0.55, x + 0.8, y + 0.35);
-  shape.bezierCurveTo(x + 0.8, y + 0.35, x + 0.8, y, x + 0.5, y);
-  shape.bezierCurveTo(x + 0.35, y, x + 0.25, y + 0.25, x + 0.25, y + 0.25);
+  const halfW = 0.5;
+  const top = 1;
+  const cleft = 0.7;
+  const mid = 0.35;
+  shape.moveTo(0, cleft);
+  shape.bezierCurveTo(0, top, -halfW, top, -halfW, cleft);
+  shape.bezierCurveTo(-halfW, mid, 0, mid, 0, 0);
+  shape.bezierCurveTo(0, mid, halfW, mid, halfW, cleft);
+  shape.bezierCurveTo(halfW, top, 0, top, 0, cleft);
   return shape;
 }
 

@@ -3,6 +3,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
+import Image from "next/image";
 import { featuredMemory } from "@/content";
 import MemoryCard from "./MemoryCard";
 import { playDevelopSound } from "@/lib/developSound";
@@ -239,7 +240,11 @@ export default function PolaroidPrinter() {
               className="h-24 w-[76px] overflow-hidden rounded-sm border border-palette-silver bg-white p-1.5 shadow-xl"
             >
               <div className="relative h-full w-full overflow-hidden rounded-sm">
-                <div className="absolute inset-0 bg-gradient-to-b from-palette-sky/50 via-palette-tint to-[#cdeab3]" />
+                {featuredMemory.image ? (
+                  <Image src={featuredMemory.image} alt="" fill className="object-cover" />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-b from-palette-sky/50 via-palette-tint to-[#cdeab3]" />
+                )}
                 <motion.div
                   initial={{ opacity: 1 }}
                   animate={{ opacity: phase === "printing" ? 1 : 0 }}

@@ -33,6 +33,7 @@ export const heroText = {
 };
 
 export const featuredMemory: Memory = {
+  image: "/images/featured-memory.jpg",
   caption: "Our first date",
   note: "I was so nervous I forgot my own order.",
 };
