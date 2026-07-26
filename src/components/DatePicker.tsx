@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Shuffle } from "lucide-react";
 import { dateIdeas } from "@/content";
 import { pickRandom } from "@/lib/pickRandom";
+import { Doodle } from "./DoodleIcons";
 
 export default function DatePicker() {
   const [result, setResult] = useState<(typeof dateIdeas)[number] | null>(null);
@@ -68,7 +69,7 @@ export default function DatePicker() {
               }
               className="flex flex-col items-center gap-2 rounded-2xl border border-palette-sky bg-white p-6 text-center shadow-lg"
             >
-              <span className="text-4xl">{result.icon}</span>
+              <Doodle name={result.icon} className="h-12 w-12" />
               <span className="text-lg font-bold text-palette-sapphire">
                 {result.title}
               </span>

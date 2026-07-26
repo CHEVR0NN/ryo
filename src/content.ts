@@ -2,6 +2,8 @@
 // Placeholder content — swap these values for the real thing whenever ready.
 // No other file needs to change when you do.
 
+import type { DoodleName } from "./components/DoodleIcons";
+
 export interface Memory {
   image?: string;
   caption: string;
@@ -16,7 +18,7 @@ export interface Reason {
 export interface DateIdea {
   title: string;
   description: string;
-  icon: string; // one emoji, rendered large in the result card
+  icon: DoodleName;
 }
 
 export const names = {
@@ -51,14 +53,14 @@ export const reasons: Reason[] = [
 ];
 
 export const dateIdeas: DateIdea[] = [
-  { title: "Picnic at sunset", description: "Blanket, snacks, and nowhere else to be.", icon: "🧺" },
-  { title: "Cook something new", description: "Pick a recipe neither of us has tried.", icon: "🍳" },
-  { title: "Arcade night", description: "Loser buys ice cream after.", icon: "🕹️" },
-  { title: "Stargazing drive", description: "Find somewhere dark and just look up.", icon: "✨" },
-  { title: "Bookstore wander", description: "Buy each other a book, no peeking at the price.", icon: "📚" },
-  { title: "Karaoke at home", description: "Bad singing mandatory.", icon: "🎤" },
-  { title: "Museum day", description: "Pick the weirdest exhibit and overanalyze it.", icon: "🖼️" },
-  { title: "Baking disaster", description: "Attempt something way above our skill level.", icon: "🧁" },
-  { title: "Mini golf", description: "Petty rivalry encouraged.", icon: "⛳" },
-  { title: "Movie marathon", description: "One theme, three movies, unlimited snacks.", icon: "🎬" },
+  { title: "Picnic at sunset", description: "Blanket, snacks, and nowhere else to be.", icon: "picnic" },
+  { title: "Cook something new", description: "Pick a recipe neither of us has tried.", icon: "cooking" },
+  { title: "Arcade night", description: "Loser buys ice cream after.", icon: "arcade" },
+  { title: "Stargazing drive", description: "Find somewhere dark and just look up.", icon: "stargaze" },
+  { title: "Bookstore wander", description: "Buy each other a book, no peeking at the price.", icon: "book" },
+  { title: "Karaoke at home", description: "Bad singing mandatory.", icon: "mic" },
+  { title: "Museum day", description: "Pick the weirdest exhibit and overanalyze it.", icon: "museum" },
+  { title: "Baking disaster", description: "Attempt something way above our skill level.", icon: "cupcake" },
+  { title: "Mini golf", description: "Petty rivalry encouraged.", icon: "golf" },
+  { title: "Movie marathon", description: "One theme, three movies, unlimited snacks.", icon: "movie" },
 ];
