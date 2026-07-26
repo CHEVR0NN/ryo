@@ -1,4 +1,3 @@
-// src/components/MemoryCard.tsx
 "use client";
 
 import { useState } from "react";
@@ -6,45 +5,50 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import type { Memory } from "@/content";
 
-export default function MemoryCard({ memory }: { memory: Memory }) {
-  const [flipped, setFlipped] = useState(false);
+const NOTE_CLIP =
+  "polygon(0% 2%, 4% 0%, 96% 1%, 100% 3%, 99% 97%, 95% 100%, 3% 99%, 1% 96%)";
+
+export default function MemoryCard({
+  memory,
+  tiltClass = "",
+}: {
+  memory: Memory;
+  tiltClass?: string;
+}) {
+  const [revealed, setRevealed] = useState(false);
 
   return (
-    <button
-      type="button"
-      onClick={() => setFlipped((f) => !f)}
-      className="perspective-1000 h-64 w-48 text-left"
-      aria-label={`Flip memory card: ${memory.caption}`}
-    >
-      <motion.div
-        className="transform-style-3d relative h-full w-full"
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    <div className="relative">
+      <div
+        className="absolute inset-0 translate-x-3 translate-y-4 rotate-3 rounded-lg bg-[#FFF9E6] p-4 shadow-md"
+        style={{ clipPath: NOTE_CLIP }}
       >
-        <div className="backface-hidden absolute inset-0 flex flex-col rounded-2xl border border-palette-silver bg-white p-3 shadow-lg">
-          {memory.image ? (
-            <div className="relative flex-1 overflow-hidden rounded-xl">
-              <Image
-                src={memory.image}
-                alt={memory.caption}
-                fill
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div className="flex-1 rounded-xl bg-palette-tint" />
-          )}
-          <p className="mt-2 text-center text-sm font-medium text-palette-sapphire">
-            {memory.caption}
-          </p>
-        </div>
+        <p className="font-serif text-sm italic text-palette-sapphire">{memory.note}</p>
+      </div>
 
-        <div className="backface-hidden transform-rotate-y-180 absolute inset-0 flex items-center justify-center rounded-2xl border border-palette-silver bg-white p-4 shadow-lg">
-          <p className="text-center font-serif italic text-palette-sapphire">
-            {memory.note}
-          </p>
-        </div>
-      </motion.div>
-    </button>
+      <motion.button
+        type="button"
+        onClick={() => setRevealed((r) => !r)}
+        aria-label={
+          revealed
+            ? `Hide the note behind this photo: ${memory.caption}`
+            : `Slide this photo aside to reveal the note behind it: ${memory.caption}`
+        }
+        animate={revealed ? { x: -36, y: -168, rotate: -9 } : { x: 0, y: 0, rotate: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className={`relative flex w-full flex-col rounded-lg border border-palette-silver bg-white p-3 text-left shadow-lg ${tiltClass}`}
+      >
+        {memory.image ? (
+          <div className="relative aspect-[4/3] overflow-hidden rounded">
+            <Image src={memory.image} alt={memory.caption} fill className="object-cover" />
+          </div>
+        ) : (
+          <div className="aspect-[4/3] rounded bg-gradient-to-b from-palette-sky/50 via-palette-tint to-[#cdeab3]" />
+        )}
+        <p className="mt-2 text-center text-sm font-medium text-palette-sapphire">
+          {memory.caption}
+        </p>
+      </motion.button>
+    </div>
   );
 }
